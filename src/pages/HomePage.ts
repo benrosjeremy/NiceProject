@@ -29,7 +29,4 @@ export class HomePage extends BasePage {
     await this.page.getByRole('option', { name: areaLabel }).click();
   }
 
-//   async clickSearchButton() {
-//     await this.page.getByRole('button', { name: 'חיפוש', exact: true }).click();
-//   }
 }
