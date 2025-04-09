@@ -2,24 +2,15 @@ import { expect } from '@playwright/test';
 import { BasePage } from '../base/BasePage';
 
 export class GiftPage extends BasePage {
-  // async selectGiftByName(name?: string) {
-  //   if (name) {
-  //     await this.page.getByText(name, { exact: false }).click();
-  //   } else {
-  //     const gift = this.page.locator('#ember1319 > span'); // ← מה שאתה גילית
-  //     await gift.click();
-  //   }
-  // }
   async selectGiftByName(name?: string) {
     if (name) {
-      const gift = this.page.locator(`span.name.bm-subtitle-1:has-text("${name}")`);
-      await gift.waitFor({ state: 'visible', timeout: 10000 });  // הוספנו המתנה עד שהאלמנט יהיה זמין
-      await gift.click();
+      await this.page.getByText(name, { exact: false }).click();
     } else {
       const gift = this.page.locator('#ember1319 > span'); // ← מה שאתה גילית
       await gift.click();
     }
   }
+  
 
   async enterAmount(amount: string) {
     await this.page.getByPlaceholder('הכנס סכום').fill(amount);
