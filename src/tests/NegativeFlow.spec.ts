@@ -15,38 +15,26 @@ class NegativeFlowTest extends BaseTest {
 
     // הכנסת ערך לא נכון
     await this.gift.enterAmount('asas');
-await this.page.locator('button[gtm="בחירה"]').click();
-
-
+    const moneyForm = this.page.locator('form:has(input[placeholder="הכנס סכום"])');
+    await moneyForm.getByRole('button', { name: 'בחירה' }).click();
     
     const amountError = await this.page.locator('#parsley-id-12').getByText('ערך זה צריך להיות מספר');
 
     await expect(amountError).toBeVisible(); 
-
-   
     await this.gift.enterAmount('155');
-    await this.gift.confirmGiftChoice();
-
-
+    await moneyForm.getByRole('button', { name: 'בחירה' }).click();
     await this.gift.fillReceiverName('avi');
     await this.gift.selectEventType('חג פסח');
     await this.gift.clickContinue();
-
-    
     await this.payment.fillSenderName('dany');
     
     // מילוי כתובת מייל שגויה
     await this.payment.fillReceiverEmail('avi');
     const emailError = await this.page.locator('#parsley-id-16').getByText('ערך זה צריך להיות כתובת אימייל');
     await expect(emailError).toBeVisible(); 
-
-   
     await this.payment.fillReceiverEmail('benrosjeremy@gmail.com');
-    
-    
     await this.payment.continueToPayment();
 
-    // בדוק אם הגענו למסך "כניסה ל-BUYME"
     const loginPopup = this.page.locator('#ember1101 div').filter({ hasText: 'כניסה ל-BUYME' }).nth(3);
     await loginPopup.waitFor({ state: 'visible', timeout: 10000 });
     await expect(loginPopup).toBeVisible();
